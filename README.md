@@ -10,6 +10,6 @@ git clone https://github.com/Shviderskiy/proc_maps.git
 ## Build example
 ```bash
 mkdir build && cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_PROC_MAPS_EXAMPLE=ON
+cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_PROC_MAPS_EXAMPLE=ON # -DCMAKE_C_FLAGS=-m32
 cmake --build .
 ```

@@ -16,9 +16,9 @@ static int proc_maps_callback(
         flag = 'p';
     if (record_->flag == MAP_SHARED)
         flag = 's';
-    printf("%08lx-%08lx %c%c%c%c %08ld %02d:%02d %-10d%s\n",
-           (uintptr_t)record_->addr_beg,
-           (uintptr_t)record_->addr_end,
+    printf("%08lx-%08lx %c%c%c%c %08lx %02d:%02d %-10d%s\n",
+           (unsigned long int)record_->addr_beg,
+           (unsigned long int)record_->addr_end,
            record_->prot & PROT_READ ? 'r' : '-',
            record_->prot & PROT_WRITE ? 'w' : '-',
            record_->prot & PROT_EXEC ? 'x' : '-',
@@ -47,6 +47,7 @@ int main(int argc_, char * argv_[])
         char command[36];
         sprintf(command, "cat /proc/%lu/maps", pid);
         printf("$ %s\n", command);
+        fflush(stdout);
         system(command);
     }
 
