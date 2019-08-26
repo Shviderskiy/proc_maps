@@ -52,9 +52,13 @@ int main(int argc_, char * argv_[])
     }
 
     printf("proc_maps_iterate:\n");
+    int last_errno = errno;
     if (proc_maps_iterate(
                 (pid_t)pid, proc_maps_callback, NULL, NULL, 0) < 0) {
-        fprintf(stderr, "proc_maps_iterate failed\n");
+        if (last_errno != errno)
+            fprintf(stderr, "proc_maps_iterate failed: %s\n", strerror(errno));
+        else
+            fprintf(stderr, "proc_maps_iterate failed: parse error\n");
         return -1;
     }
 

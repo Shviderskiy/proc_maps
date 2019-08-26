@@ -1,6 +1,6 @@
 # proc_maps
 
-A library for retrieving records from `/proc/${PID}/maps` file. Not uses dynamic memory. Records are passed to callback. To stop iteration callback should return non-zero value.
+A library for retrieving records from `/proc/${PID}/maps` file, which contains the memory map of a process. Not uses dynamic memory. Parsed records are passed to callback function. To stop iteration callback function should return non-zero value. On success `proc_maps_iterate` returns 0, or negative value if an error occurred.
 
 ## Getting sources
 ```bash
