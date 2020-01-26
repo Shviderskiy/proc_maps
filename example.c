@@ -34,8 +34,10 @@ static int proc_maps_callback(
 int main(int argc_, char * argv_[])
 {
     unsigned long int pid = (unsigned long int)getpid();
-    if (argc_ >= 2) {
-        if (sscanf(argv_[1], "%lu", &pid) != 1) {
+    if (argc_ >= 2)
+    {
+        if (sscanf(argv_[1], "%lu", &pid) != 1)
+        {
             fprintf(stderr, "Invalid command line!\n");
             fprintf(stderr, "Usage: %s [PID]\n", argv_[0]);
             return -1;
@@ -54,7 +56,8 @@ int main(int argc_, char * argv_[])
     printf("proc_maps_iterate:\n");
     int last_errno = errno;
     if (proc_maps_iterate(
-                (pid_t)pid, proc_maps_callback, NULL, NULL, 0) < 0) {
+                (pid_t)pid, proc_maps_callback, NULL, NULL, 0) < 0)
+    {
         if (last_errno != errno)
             fprintf(stderr, "proc_maps_iterate failed: %s\n", strerror(errno));
         else

@@ -34,8 +34,8 @@ static int _buffered_getc(_reading_context * rctx_, int * result_)
     if (rctx_->is_eof)
         goto eof;
 
-    if (rctx_->cur_buf_pos == rctx_->cur_buf_size) {
-
+    if (rctx_->cur_buf_pos == rctx_->cur_buf_size)
+    {
         /* dubious optimization */
         if (rctx_->cur_buf_size != 0 &&
                 rctx_->cur_buf_size < rctx_->max_buf_size)
@@ -69,8 +69,8 @@ static int _parse_hex(_reading_context * rctx_, char end_, uint64_t * result_)
     uint64_t result = 0;
 
     int c;
-    while (1) {
-
+    while (1)
+    {
         if (_buffered_getc(rctx_, &c) != 0)
             return -1; /* errno filled */
 
@@ -164,8 +164,8 @@ static int _parse_dec(_reading_context * rctx_, char end_, uint64_t * result_)
     uint64_t result = 0;
 
     int c;
-    while (1) {
-
+    while (1)
+    {
         if (_buffered_getc(rctx_, &c) != 0)
             return -1; /* errno filled */
 
@@ -196,8 +196,8 @@ static int _skip_spaces_and_parse_str(
 
     int need_parse = 1;
 
-    while (need_parse) {
-
+    while (need_parse)
+    {
         if (_buffered_getc(rctx_, &c) != 0)
             return -1; /* errno filled */
 
@@ -208,14 +208,14 @@ static int _skip_spaces_and_parse_str(
             break;
     }
 
-    if (need_parse) {
-
+    if (need_parse)
+    {
         if (result_ != NULL && i + 1 < max_len_)
             result_[i++] = (char)c;
     }
 
-    while (need_parse) {
-
+    while (need_parse)
+    {
         if (_buffered_getc(rctx_, &c) != 0)
             return -1; /* errno filled */
 
@@ -241,11 +241,12 @@ static int _proc_maps_iterate(
     proc_maps_record record;
     record.pathname = pathname;
 
-    while (1) {
-
+    while (1)
+    {
         uint64_t hex, dec;
 
-        if (_parse_hex(rctx_, '-', &hex) != 0) {
+        if (_parse_hex(rctx_, '-', &hex) != 0)
+        {
             if (rctx_->is_eof)
                 return 0;
             return -1;
@@ -317,7 +318,8 @@ int proc_maps_iterate(
     rctx.cur_buf_size = rctx.cur_buf_pos = 0;
     rctx.is_eof = 0;
 
-    if (rbuf_ != NULL && rbuf_size_ != 0) {
+    if (rbuf_ != NULL && rbuf_size_ != 0)
+    {
         rctx.buf = rbuf_;
         rctx.max_buf_size = rbuf_size_;
         goto execution;
@@ -330,7 +332,8 @@ int proc_maps_iterate(
 execution:
     {
         int result = _proc_maps_iterate(callback_, context_, &rctx);
-        if (result == 0) {
+        if (result == 0)
+        {
             if (close(rctx.fd) == -1)
                 return -1; /* errno filled */
         }
