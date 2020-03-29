@@ -6,6 +6,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <errno.h>
 
 static int _open_proc_maps(pid_t pid_)
 {
@@ -332,10 +333,12 @@ int proc_maps_iterate(
 execution:
     {
         int result = _proc_maps_iterate(callback_, context_, &rctx);
-        if (result == 0)
+        int last_errno = errno;
+        if (close(rctx.fd) == -1)
         {
-            if (close(rctx.fd) == -1)
+            if (result == 0)
                 return -1; /* errno filled */
+            errno = last_errno;
         }
         return result;
     }
