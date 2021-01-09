@@ -44,7 +44,7 @@ static int _buffered_getc(_reading_context * rctx_, int * result_)
 
         ssize_t rres = read(rctx_->fd, rctx_->buf, rctx_->max_buf_size);
         if (rres < 0)
-            return -1; /* errno filled */
+            return -1; /* errno is filled */
 
         if (rres == 0)
             goto eof;
@@ -73,7 +73,7 @@ static int _parse_hex(_reading_context * rctx_, char end_, uint64_t * result_)
     while (1)
     {
         if (_buffered_getc(rctx_, &c) != 0)
-            return -1; /* errno filled */
+            return -1; /* errno is filled */
 
         if (c == EOF)
             return -1; /* unexpected end */
@@ -102,7 +102,7 @@ static int _parse_prot_liter(_reading_context * rctx_, char liter_)
     int c;
 
     if (_buffered_getc(rctx_, &c) != 0)
-        return -1; /* errno filled */
+        return -1; /* errno is filled */
 
     if (c == EOF)
         return -1; /* unexpected end */
@@ -142,7 +142,7 @@ static int _parse_flag(_reading_context * rctx_, int * result_)
     int c;
 
     if (_buffered_getc(rctx_, &c) != 0)
-        return -1; /* errno filled */
+        return -1; /* errno is filled */
 
     if (c == EOF)
         return -1; /* unexpected end */
@@ -151,7 +151,7 @@ static int _parse_flag(_reading_context * rctx_, int * result_)
     if (c == 'p')
         result = MAP_PRIVATE;
     else if (c == 's')
-        result = MAP_SHARED; 
+        result = MAP_SHARED;
     else
         return -1; /* invalid char */
 
@@ -168,7 +168,7 @@ static int _parse_dec(_reading_context * rctx_, char end_, uint64_t * result_)
     while (1)
     {
         if (_buffered_getc(rctx_, &c) != 0)
-            return -1; /* errno filled */
+            return -1; /* errno is filled */
 
         if (c == EOF)
             return -1; /* unexpected end */
@@ -200,7 +200,7 @@ static int _skip_spaces_and_parse_str(
     while (need_parse)
     {
         if (_buffered_getc(rctx_, &c) != 0)
-            return -1; /* errno filled */
+            return -1; /* errno is filled */
 
         if (c == EOF || c == end_)
             need_parse = 0;
@@ -218,7 +218,7 @@ static int _skip_spaces_and_parse_str(
     while (need_parse)
     {
         if (_buffered_getc(rctx_, &c) != 0)
-            return -1; /* errno filled */
+            return -1; /* errno is filled */
 
         if (c == EOF || c == end_)
             break;
@@ -266,7 +266,7 @@ static int _proc_maps_iterate(
 
         int c;
         if (_buffered_getc(rctx_, &c) != 0)
-            return -1; /* errno filled */
+            return -1; /* errno is filled */
 
         if (c == EOF)
             return -1; /* unexpected end */
@@ -314,7 +314,7 @@ int proc_maps_iterate(
     _reading_context rctx;
     rctx.fd = _open_proc_maps(pid_);
     if (rctx.fd == -1)
-        return -1 /* errno filled */;
+        return -1 /* errno is filled */;
 
     rctx.cur_buf_size = rctx.cur_buf_pos = 0;
     rctx.is_eof = 0;
@@ -337,7 +337,7 @@ execution:
         if (close(rctx.fd) == -1)
         {
             if (result == 0)
-                return -1; /* errno filled */
+                return -1; /* errno is filled */
             errno = last_errno;
         }
         return result;
